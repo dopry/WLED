@@ -5,16 +5,18 @@
 # Please visit documentation: https://docs.platformio.org/page/projectconf.html
 
 [platformio]
-default_envs = WLED_tasmota_1M
+default_envs = JaysSuitecase
 
-[env:WLED_tasmota_1M]
-board = esp01_1m
-platform = ${common.platform_wled_default}
-platform_packages = ${common.platform_packages}
-board_build.ldscript = ${common.ldscript_1m128k}
-lib_deps = ${esp8266.lib_deps}
+[env:JaysSuitecase]
+board = esp32dev
+platform = ${esp32.platform}
+platform_packages = ${esp32.platform_packages}
 build_unflags = ${common.build_unflags}
-build_flags = ${common.build_flags_esp8266}
+lib_deps = ${esp32.lib_deps}
+monitor_filters = esp32_exception_decoder
+board_build.partitions = ${esp32.default_partitions}
+build_flags = ${common.build_flags_esp32} -D WLED_RELEASE_NAME=JaysSuitecase #-D WLED_DISABLE_BLYNK #-D WLED_DISABLE_BROWNOUT_DET
+
 ; *********************************************************************
 ; *** Use custom settings from file my_config.h
    -DWLED_USE_MY_CONFIG
@@ -57,10 +59,12 @@ build_flags = ${common.build_flags_esp8266}
    -D DEFAULT_LED_COUNT=300
 ;
 ; set milliampere limit when using ESP pin to power leds
-;   -D ABL_MILLIAMPS_DEFAULT=850
+   -D ABL_MILLIAMPS_DEFAULT=4000
 ;
 ; enable IR by setting remote type
 ;   -D IRTYPE=0 ;0 Remote disabled | 1 24-key RGB | 2 24-key with CT | 3 40-key blue | 4 40-key RGB | 5 21-key RGB | 6 6-key black | 7 9-key red | 8 JSON remote
 ;
 ; set default color order of your led strip
 ;   -D DEFAULT_LED_COLOR_ORDER=COL_ORDER_GRB
+   -D CLIENT_SSID="\"JaysSuitecase\""
+   -D CLIENT_PASSWORD="\"Catharsis\""
